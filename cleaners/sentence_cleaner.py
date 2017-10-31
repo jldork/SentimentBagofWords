@@ -38,3 +38,15 @@ class SentenceCleaner:
                     stems.append(self.stem(item))
 
         return stems
+
+    def get_bigrams(self, sentence):
+        # Get the review text, lowercase + remove punctuation
+        review_text = sentence.lower().translate(self.punc_remover)
+        words = word_tokenize(review_text)
+
+        words = [
+            item for item in self.split_nospace(word) 
+            for word in words
+            ]
+        
+        return zip(words[:-1], words[1:])
