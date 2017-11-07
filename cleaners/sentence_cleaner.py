@@ -3,6 +3,7 @@ import enchant
 import string
 import re
 
+from functools import reduce
 from nltk.corpus import stopwords, words
 from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
@@ -44,9 +45,6 @@ class SentenceCleaner:
         review_text = sentence.lower().translate(self.punc_remover)
         words = word_tokenize(review_text)
 
-        words = [
-            item for item in self.split_nospace(word) 
-            for word in words
-            ]
+        words = reduce(lambda x, y: x+y, [self.split_nospace(word) for word in words])
         
         return zip(words[:-1], words[1:])
